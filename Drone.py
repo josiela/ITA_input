@@ -118,7 +118,7 @@ class Drone(BaseDrone):
 #               Initialization and cleanup code
 ################################################################################
 
-    def __init__(self, uri, initial_x = 0, initial_y = 0, initial_z = 0, initial_yaw = 0):
+    def __init__(self, uri, initial_x = 0, initial_y = 0, initial_z = 0, initial_yaw = 0, debug_estimator = False):
         """Establishes the connection to the drone.
 
         Uses the uri parameter to connect to the corresponding drone. the initial_ values are used to save the starting position of the drone.
@@ -128,6 +128,7 @@ class Drone(BaseDrone):
         self.initial_y = initial_y
         self.initial_z = initial_z
         self.initial_yaw = initial_z  
+        self.debug_estimator = debug_estimator
 
         # Only output errors from the logging framework
         logging.basicConfig(level=logging.ERROR)
@@ -184,8 +185,8 @@ class Drone(BaseDrone):
                 min_z = min(var_z_history)
                 max_z = max(var_z_history)
 
-                # print("{} {} {}".
-                #       format(max_x - min_x, max_y - min_y, max_z - min_z))
+                if(self.debug_estimator):
+                    print("{} {} {}".format(max_x - min_x, max_y - min_y, max_z - min_z))
 
                 if (max_x - min_x) < threshold and (
                         max_y - min_y) < threshold and (
